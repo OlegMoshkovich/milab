@@ -9,6 +9,7 @@ const GLYPHS = "abcdefghijklmnopqrstuvwxyz";
 const FLIP_INTERVAL = 45; // how fast each letter rolls to a new random glyph
 const SETTLE_STAGGER = 55; // extra delay before each successive letter locks
 const BASE_FLIPS = 8; // minimum rolls every letter makes before it can settle
+const HOLD_MS = 1800; // pause on the finished text before cycling again
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
@@ -25,14 +26,22 @@ export default function SplitFlap({ text }: { text: string }) {
       (_, i) => BASE_FLIPS * FLIP_INTERVAL + i * SETTLE_STAGGER,
     );
     const finishAt = settleAt[settleAt.length - 1] ?? 0;
+    // One full loop: scramble + settle, then hold on the text, then repeat.
+    const cycleLen = finishAt + HOLD_MS;
 
-    let start: number | null = null;
+    let cycleStart: number | null = null;
     let lastFlip = 0;
     let raf = 0;
 
     const tick = (now: number) => {
-      if (start === null) start = now;
-      const elapsed = now - start;
+      if (cycleStart === null) cycleStart = now;
+      let elapsed = now - cycleStart;
+      if (elapsed >= cycleLen) {
+        // Start a fresh scramble.
+        cycleStart = now;
+        elapsed = 0;
+        lastFlip = 0;
+      }
 
       if (now - lastFlip >= FLIP_INTERVAL) {
         lastFlip = now;
@@ -47,11 +56,7 @@ export default function SplitFlap({ text }: { text: string }) {
         );
       }
 
-      if (elapsed < finishAt) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        setDisplay(text); // snap everything to the final text
-      }
+      raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
