@@ -30,6 +30,26 @@ body {
   color: #ffffff;
 }
 
+.sound-toggle {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  color: #555555;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.sound-toggle:hover,
+.sound-toggle[aria-pressed="true"] {
+  color: #ffffff;
+}
+
 a {
   color: inherit;
   text-decoration: none;
