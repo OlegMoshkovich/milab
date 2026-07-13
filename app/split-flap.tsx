@@ -15,32 +15,44 @@ const CLICK_GAP = 55; // min gap between clatter clicks while scrambling
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
 // Synthesize a short mechanical "tick" — a decaying noise burst through a
-// band-pass filter. Randomized pitch so a run of them sounds like many flaps.
+// band-pass filter, mixed with a short pitched transient so it carries on
+// small phone speakers. Randomized pitch makes a run sound like many flaps.
 function playClick(ctx: AudioContext, volume: number) {
   const now = ctx.currentTime;
-  const dur = 0.028;
+  const dur = 0.035;
+
+  // Noise burst — the high "tick".
   const frames = Math.max(1, Math.floor(ctx.sampleRate * dur));
   const buffer = ctx.createBuffer(1, frames, ctx.sampleRate);
   const data = buffer.getChannelData(0);
   for (let i = 0; i < frames; i++) {
     data[i] = (Math.random() * 2 - 1) * (1 - i / frames);
   }
-
-  const src = ctx.createBufferSource();
-  src.buffer = buffer;
-
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
   const band = ctx.createBiquadFilter();
   band.type = "bandpass";
-  band.frequency.value = 1500 + Math.random() * 900;
-  band.Q.value = 1.1;
+  band.frequency.value = 1200 + Math.random() * 700;
+  band.Q.value = 1.0;
+  const noiseGain = ctx.createGain();
+  noiseGain.gain.setValueAtTime(volume, now);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+  noise.connect(band).connect(noiseGain).connect(ctx.destination);
+  noise.start(now);
+  noise.stop(now + dur);
 
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(volume, now);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-
-  src.connect(band).connect(gain).connect(ctx.destination);
-  src.start(now);
-  src.stop(now + dur);
+  // Pitched "thock" — low body that small speakers can actually reproduce.
+  const osc = ctx.createOscillator();
+  osc.type = "triangle";
+  const f0 = 300 + Math.random() * 160;
+  osc.frequency.setValueAtTime(f0, now);
+  osc.frequency.exponentialRampToValueAtTime(f0 * 0.6, now + dur);
+  const oscGain = ctx.createGain();
+  oscGain.gain.setValueAtTime(volume * 0.9, now);
+  oscGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+  osc.connect(oscGain).connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + dur);
 }
 
 export default function SplitFlap({ text }: { text: string }) {
@@ -63,8 +75,19 @@ export default function SplitFlap({ text }: { text: string }) {
               .webkitAudioContext;
           ctxRef.current = new AudioCtx();
         }
-        // Unlock playback — must happen inside this user gesture.
-        void ctxRef.current.resume();
+        const ctx = ctxRef.current;
+        // iOS routes Web Audio through the ringer (silent) switch by default;
+        // asking for the "playback" session lets it sound even when muted.
+        const audioSession = (
+          navigator as unknown as { audioSession?: { type: string } }
+        ).audioSession;
+        if (audioSession) audioSession.type = "playback";
+        // Unlock — resume plus a silent tick, both inside the tap gesture.
+        void ctx.resume();
+        const unlock = ctx.createBufferSource();
+        unlock.buffer = ctx.createBuffer(1, 1, 22050);
+        unlock.connect(ctx.destination);
+        unlock.start(0);
       }
       return next;
     });
@@ -118,11 +141,11 @@ export default function SplitFlap({ text }: { text: string }) {
         if (scrambling) {
           if (now - lastClick >= CLICK_GAP) {
             lastClick = now;
-            playClick(ctx, 0.14); // clatter while flipping
+            playClick(ctx, 0.22); // clatter while flipping
           }
         } else if (!settleClicked) {
           settleClicked = true;
-          playClick(ctx, 0.22); // firmer click as the line locks in
+          playClick(ctx, 0.4); // firmer click as the line locks in
         }
       }
 
