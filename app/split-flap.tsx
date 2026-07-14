@@ -10,35 +10,10 @@ const FLIP_INTERVAL = 45; // how fast each letter rolls to a new random glyph
 const SETTLE_STAGGER = 55; // extra delay before each successive letter locks
 const BASE_FLIPS = 8; // minimum rolls every letter makes before it can settle
 const HOLD_MS = 1800; // pause on the finished text before cycling again
-const CLICK_GAP = 72; // min gap between clatter clicks while scrambling
+const STING_SRC = "/board-sting.wav"; // played once as each message scrambles
+const STING_VOLUME = 0.85;
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-
-// "Soft ticks" — a short, quiet, high noise burst through a band-pass filter,
-// no low body. Randomized pitch makes a run sound like many gentle flaps.
-function playClick(ctx: AudioContext, volume: number) {
-  const now = ctx.currentTime;
-  const dur = 0.02;
-
-  const frames = Math.max(1, Math.floor(ctx.sampleRate * dur));
-  const buffer = ctx.createBuffer(1, frames, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < frames; i++) {
-    data[i] = (Math.random() * 2 - 1) * (1 - i / frames);
-  }
-  const noise = ctx.createBufferSource();
-  noise.buffer = buffer;
-  const band = ctx.createBiquadFilter();
-  band.type = "bandpass";
-  band.frequency.value = 2000 + Math.random() * 1000;
-  band.Q.value = 1.4;
-  const noiseGain = ctx.createGain();
-  noiseGain.gain.setValueAtTime(volume, now);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-  noise.connect(band).connect(noiseGain).connect(ctx.destination);
-  noise.start(now);
-  noise.stop(now + dur);
-}
 
 export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
@@ -49,8 +24,11 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   const [soundOn, setSoundOn] = useState(true);
   const ctxRef = useRef<AudioContext | null>(null);
   const soundOnRef = useRef(true); // read inside rAF without re-running effect
+  const stingRef = useRef<AudioBuffer | null>(null); // decoded WAV
+  const stingLoading = useRef(false);
+  const playingRef = useRef<AudioBufferSourceNode | null>(null);
 
-  // Create/resume the audio context. Must be called from a user gesture.
+  // Create/resume the audio context and load the sting. From a user gesture.
   const unlockAudio = () => {
     if (!ctxRef.current) {
       const AudioCtx =
@@ -71,6 +49,50 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
     unlock.buffer = ctx.createBuffer(1, 1, 22050);
     unlock.connect(ctx.destination);
     unlock.start(0);
+
+    // Fetch + decode the sting once.
+    if (!stingRef.current && !stingLoading.current) {
+      stingLoading.current = true;
+      fetch(STING_SRC)
+        .then((r) => r.arrayBuffer())
+        .then((buf) => ctx.decodeAudioData(buf))
+        .then((decoded) => {
+          stingRef.current = decoded;
+        })
+        .catch(() => {
+          stingLoading.current = false; // allow a retry on next unlock
+        });
+    }
+  };
+
+  const stopSting = () => {
+    if (playingRef.current) {
+      try {
+        playingRef.current.stop();
+      } catch {
+        // already stopped
+      }
+      playingRef.current = null;
+    }
+  };
+
+  // Play the sting once. Returns false if it isn't ready/enabled yet.
+  const playSting = () => {
+    const ctx = ctxRef.current;
+    const buffer = stingRef.current;
+    if (!ctx || !buffer || !soundOnRef.current) return false;
+    stopSting(); // no overlap — restart cleanly for the new message
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    const gain = ctx.createGain();
+    gain.gain.value = STING_VOLUME;
+    src.connect(gain).connect(ctx.destination);
+    src.onended = () => {
+      if (playingRef.current === src) playingRef.current = null;
+    };
+    src.start();
+    playingRef.current = src;
+    return true;
   };
 
   const toggleSound = () => {
@@ -78,6 +100,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       const next = !prev;
       soundOnRef.current = next;
       if (next) unlockAudio();
+      else stopSting();
       return next;
     });
   };
@@ -112,8 +135,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
 
     let cycleStart: number | null = null;
     let lastFlip = 0;
-    let lastClick = 0;
-    let settleClicked = false;
+    let stingStarted = false; // has this message's sting played yet?
     let raf = 0;
 
     const tick = (now: number) => {
@@ -131,7 +153,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         cycleStart = now;
         elapsed = 0;
         lastFlip = 0;
-        settleClicked = false;
+        stingStarted = false;
       }
 
       const scrambling = elapsed < finishAt;
@@ -149,17 +171,10 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         );
       }
 
-      const ctx = ctxRef.current;
-      if (soundOnRef.current && ctx) {
-        if (scrambling) {
-          if (now - lastClick >= CLICK_GAP) {
-            lastClick = now;
-            playClick(ctx, 0.18); // soft clatter while flipping
-          }
-        } else if (!settleClicked) {
-          settleClicked = true;
-          playClick(ctx, 0.3); // slightly firmer tick as the line locks in
-        }
+      // Play the sting once as the message begins scrambling. If audio isn't
+      // unlocked/loaded yet, keep trying on later frames until it fires.
+      if (scrambling && !stingStarted) {
+        stingStarted = playSting();
       }
 
       raf = requestAnimationFrame(tick);
@@ -167,6 +182,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   return (
