@@ -7,6 +7,7 @@ export default function Home() {
         messages={[
           "machine intelligence research lab",
           "crafting expert RL environments",
+          "personal machine intelligence for all",
         ]}
       />
     </main>
