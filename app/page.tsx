@@ -6,7 +6,7 @@ export default function Home() {
       <SplitFlap
         messages={[
           "machine intelligence research lab",
-          "crafting expert to environments",
+          "crafting RL expert environments",
         ]}
       />
     </main>
