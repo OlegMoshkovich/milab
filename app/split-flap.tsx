@@ -101,10 +101,14 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
     const tick = (now: number) => {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
-      // One loop: scramble + settle, hold on the text, then advance to the
-      // next message and start a fresh scramble.
+      // One run: scramble + settle, hold on the text, then advance to the
+      // next message. After the last message settles, stop there for good.
       if (elapsed >= finishAt + HOLD_MS) {
-        msgIndex = (msgIndex + 1) % messages.length;
+        if (msgIndex >= messages.length - 1) {
+          setDisplay(messages[msgIndex]);
+          return; // no more frames — hold on the final message
+        }
+        msgIndex += 1;
         ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
         elapsed = 0;
