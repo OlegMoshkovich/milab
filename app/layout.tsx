@@ -3,7 +3,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Machine Intelligence Research Lab",
-  description: "The Machine Intelligence Research Lab",
+  description: "personal machine intelligence for all",
+  openGraph: {
+    title: "Machine Intelligence Research Lab",
+    description: "personal machine intelligence for all",
+    url: "https://www.miresearchlab.com",
+    siteName: "Machine Intelligence Research Lab",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
