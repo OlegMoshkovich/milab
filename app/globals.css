@@ -30,6 +30,22 @@ body {
   color: #ffffff;
 }
 
+.home-link {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 4px 6px;
+  color: #555555;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  transition: color 0.15s ease;
+}
+
+.home-link:hover {
+  color: #ffffff;
+}
+
 .sound-toggle {
   position: fixed;
   bottom: 16px;

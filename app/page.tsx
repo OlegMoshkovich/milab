@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SplitFlap from "./split-flap";
 
 export default function Home() {
@@ -10,6 +11,9 @@ export default function Home() {
           "personal machine intelligence for all",
         ]}
       />
+      <Link href="/blog" className="home-link">
+        blog
+      </Link>
     </main>
   );
 }
