@@ -46,20 +46,10 @@ export default async function ArticlePage({
         </nav>
       </div>
 
-      <article className={styles.article}>
-        <aside className={styles.toc} aria-label="Contents">
-          {post.sections.map((s) => (
-            <a key={s.heading} href={`#${anchor(s.heading)}`} className={styles.tocItem}>
-              {s.heading}
-            </a>
-          ))}
-        </aside>
-
+      <article>
         <div className={styles.body}>
           <h1 className={styles.articleTitle}>{post.title}</h1>
-          <p className={styles.meta}>
-            {post.date} · {post.author}
-          </p>
+          <p className={styles.meta}>{post.date}</p>
 
           {post.sections.map((s) => (
             <section key={s.heading} id={anchor(s.heading)} className={styles.section}>

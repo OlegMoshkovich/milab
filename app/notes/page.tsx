@@ -30,10 +30,7 @@ export default function NotesIndex() {
             <time className={styles.date} dateTime={post.iso}>
               {post.date}
             </time>
-            <div>
-              <div className={styles.rowTitle}>{post.title}</div>
-              <div className={styles.rowBy}>{post.author}</div>
-            </div>
+            <div className={styles.rowTitle}>{post.title}</div>
           </Link>
         ))}
       </div>
