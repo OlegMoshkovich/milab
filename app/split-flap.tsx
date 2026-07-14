@@ -59,13 +59,15 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
   const [display, setDisplay] = useState(messages[0] ?? "");
+  const [runId, setRunId] = useState(0); // bump to replay the animation
   const ctxRef = useRef<AudioContext | null>(null);
 
-  // Sound is always on, but browsers block audio until a user gesture:
-  // create/unlock the context on the first interaction anywhere.
+  // Click anywhere (except a link) to unlock audio and replay the animation.
+  // Browsers block audio until a user gesture, so this doubles as the unlock.
   useEffect(() => {
-    const events = ["pointerdown", "keydown", "touchstart"] as const;
-    const unlock = () => {
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (target && target.closest("a, button")) return; // let links behave
       if (!ctxRef.current) {
         const AudioCtx =
           window.AudioContext ||
@@ -74,12 +76,10 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         ctxRef.current = new AudioCtx();
       }
       primeContext(ctxRef.current);
-      events.forEach((e) => document.removeEventListener(e, unlock));
+      setRunId((n) => n + 1);
     };
-    events.forEach((e) =>
-      document.addEventListener(e, unlock, { passive: true }),
-    );
-    return () => events.forEach((e) => document.removeEventListener(e, unlock));
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
   }, []);
 
   useEffect(() => {
@@ -158,7 +158,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [messages]);
+  }, [messages, runId]);
 
   return (
     <p className="title" aria-label={messages.join(", ")}>
