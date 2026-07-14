@@ -40,10 +40,10 @@ function playClick(ctx: AudioContext, volume: number) {
   noise.stop(now + dur);
 }
 
-export default function SplitFlap({ text }: { text: string }) {
+export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
-  const [display, setDisplay] = useState(text);
+  const [display, setDisplay] = useState(messages[0] ?? "");
   const [soundOn, setSoundOn] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
   const soundOnRef = useRef(false); // read inside rAF without re-running effect
@@ -79,15 +79,18 @@ export default function SplitFlap({ text }: { text: string }) {
   };
 
   useEffect(() => {
-    const chars = [...text];
-    // Each letter locks a little later than the one before it, so the line
+    // Each letter locks a little later than the one before it, so a message
     // settles left-to-right like an airport departure board.
-    const settleAt = chars.map(
-      (_, i) => BASE_FLIPS * FLIP_INTERVAL + i * SETTLE_STAGGER,
-    );
-    const finishAt = settleAt[settleAt.length - 1] ?? 0;
-    // One full loop: scramble + settle, then hold on the text, then repeat.
-    const cycleLen = finishAt + HOLD_MS;
+    const timings = (msg: string) => {
+      const chars = [...msg];
+      const settleAt = chars.map(
+        (_, i) => BASE_FLIPS * FLIP_INTERVAL + i * SETTLE_STAGGER,
+      );
+      return { chars, settleAt, finishAt: settleAt[settleAt.length - 1] ?? 0 };
+    };
+
+    let msgIndex = 0;
+    let { chars, settleAt, finishAt } = timings(messages[0] ?? "");
 
     let cycleStart: number | null = null;
     let lastFlip = 0;
@@ -98,8 +101,11 @@ export default function SplitFlap({ text }: { text: string }) {
     const tick = (now: number) => {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
-      if (elapsed >= cycleLen) {
-        // Start a fresh scramble.
+      // One loop: scramble + settle, hold on the text, then advance to the
+      // next message and start a fresh scramble.
+      if (elapsed >= finishAt + HOLD_MS) {
+        msgIndex = (msgIndex + 1) % messages.length;
+        ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
         elapsed = 0;
         lastFlip = 0;
@@ -139,11 +145,11 @@ export default function SplitFlap({ text }: { text: string }) {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [text]);
+  }, [messages]);
 
   return (
     <>
-      <p className="title" aria-label={text}>
+      <p className="title" aria-label={messages.join(", ")}>
         {display}
       </p>
       <button
