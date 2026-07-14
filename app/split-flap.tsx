@@ -110,13 +110,12 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
       // One run: scramble + settle, hold on the text, then advance to the
-      // next message. The last message holds longer before the cycle
-      // repeats; after the second full cycle, stop on the last message.
+      // next message. After one full pass, stop on the last message.
       const hold = msgIndex >= messages.length - 1 ? LAST_HOLD_MS : HOLD_MS;
       if (elapsed >= finishAt + hold) {
         if (msgIndex >= messages.length - 1) {
           cyclesDone += 1;
-          if (cyclesDone >= 2) {
+          if (cyclesDone >= 1) {
             setDisplay(messages[msgIndex]);
             return; // no more frames; rest on the last message
           }
