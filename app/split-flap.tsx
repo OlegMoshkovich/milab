@@ -34,21 +34,17 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
   const [display, setDisplay] = useState(messages[0] ?? "");
-  // On by default; browsers still won't emit sound until the first user
-  // gesture, so we auto-unlock on that gesture (see the effect below).
-  const [soundOn, setSoundOn] = useState(true);
+  // Off by default; turning it on is itself the unlocking user gesture.
+  const [soundOn, setSoundOn] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
-  const soundOnRef = useRef(true); // read inside rAF without re-running effect
+  const soundOnRef = useRef(false); // read inside rAF without re-running effect
   const stingRef = useRef<AudioBuffer | null>(null); // decoded WAV
   const stingLoading = useRef(false);
   const playingRef = useRef<AudioBufferSourceNode | null>(null);
-  const unlockedRef = useRef(false); // has a gesture unlocked audio yet
   const firstPlayedRef = useRef(false); // has the sting played once since unlock
-  const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
 
   // Create/resume the audio context and load the sting. From a user gesture.
   const unlockAudio = () => {
-    unlockedRef.current = true;
     if (!ctxRef.current) {
       const AudioCtx =
         window.AudioContext ||
@@ -114,14 +110,6 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   };
 
   const toggleSound = () => {
-    // Sound is on by default but blocked until a gesture, so the first click
-    // on the toggle should START it (unlock + keep on), not mute it.
-    if (!unlockedRef.current) {
-      soundOnRef.current = true;
-      setSoundOn(true);
-      unlockAudio();
-      return;
-    }
     setSoundOn((prev) => {
       const next = !prev;
       soundOnRef.current = next;
@@ -130,26 +118,6 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       return next;
     });
   };
-
-  // Sound is on by default: unlock playback on the first user interaction
-  // anywhere on the page. The toggle button handles its own first click
-  // (see toggleSound), so ignore events originating from it here.
-  useEffect(() => {
-    const events = ["pointerdown", "keydown", "touchstart"] as const;
-    const kick = (e: Event) => {
-      const target = e.target as Node | null;
-      if (toggleBtnRef.current && target && toggleBtnRef.current.contains(target)) {
-        return; // let the toggle's onClick unlock it
-      }
-      if (!unlockedRef.current && soundOnRef.current) unlockAudio();
-      events.forEach((ev) => document.removeEventListener(ev, kick));
-    };
-    events.forEach((ev) =>
-      document.addEventListener(ev, kick, { passive: true }),
-    );
-    return () => events.forEach((ev) => document.removeEventListener(ev, kick));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     // Each letter locks a little later than the one before it, so a message
@@ -163,6 +131,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
     };
 
     let msgIndex = 0;
+    let cyclesDone = 0; // full passes through the message list
     let { chars, settleAt, finishAt } = timings(messages[0] ?? "");
 
     let cycleStart: number | null = null;
@@ -174,9 +143,17 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
       // One run: scramble + settle, hold on the text, then advance to the
-      // next message. The last message holds longer before the cycle repeats.
+      // next message. The last message holds longer before the cycle
+      // repeats; after the second full cycle, stop on the last message.
       const hold = msgIndex >= messages.length - 1 ? LAST_HOLD_MS : HOLD_MS;
       if (elapsed >= finishAt + hold) {
+        if (msgIndex >= messages.length - 1) {
+          cyclesDone += 1;
+          if (cyclesDone >= 2) {
+            setDisplay(messages[msgIndex]);
+            return; // no more frames — rest on the last message
+          }
+        }
         msgIndex = (msgIndex + 1) % messages.length;
         ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
@@ -220,7 +197,6 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         {display}
       </p>
       <button
-        ref={toggleBtnRef}
         type="button"
         className="sound-toggle"
         onClick={toggleSound}
