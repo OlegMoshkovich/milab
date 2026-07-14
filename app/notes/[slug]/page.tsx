@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import styles from "../blog.module.css";
+import styles from "../notes.module.css";
 import { getPost, posts } from "../posts";
 
 const anchor = (heading: string) =>
@@ -41,7 +41,7 @@ export default async function ArticlePage({
           machine intelligence
         </Link>
         <nav className={styles.nav}>
-          <Link href="/blog">blog</Link>
+          <Link href="/notes">notes</Link>
           <Link href="/">home</Link>
         </nav>
       </div>
@@ -73,7 +73,7 @@ export default async function ArticlePage({
           ))}
 
           <div className={styles.backRow}>
-            <Link href="/blog" className={styles.back}>
+            <Link href="/notes" className={styles.back}>
               ← all posts
             </Link>
           </div>

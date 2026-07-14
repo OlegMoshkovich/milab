@@ -9,7 +9,8 @@ const GLYPHS = "abcdefghijklmnopqrstuvwxyz";
 const FLIP_INTERVAL = 45; // how fast each letter rolls to a new random glyph
 const SETTLE_STAGGER = 55; // extra delay before each successive letter locks
 const BASE_FLIPS = 8; // minimum rolls every letter makes before it can settle
-const HOLD_MS = 1800; // pause on the finished text before cycling again
+const HOLD_MS = 1800; // pause on a finished message before the next one
+const LAST_HOLD_MS = 3000; // longer pause on the last message before repeating
 const STING_SRC = "/board-sting.wav"; // played once as each message scrambles
 const STING_VOLUME = 0.85;
 
@@ -173,13 +174,10 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
       // One run: scramble + settle, hold on the text, then advance to the
-      // next message. After the last message settles, stop there for good.
-      if (elapsed >= finishAt + HOLD_MS) {
-        if (msgIndex >= messages.length - 1) {
-          setDisplay(messages[msgIndex]);
-          return; // no more frames — hold on the final message
-        }
-        msgIndex += 1;
+      // next message. The last message holds longer before the cycle repeats.
+      const hold = msgIndex >= messages.length - 1 ? LAST_HOLD_MS : HOLD_MS;
+      if (elapsed >= finishAt + hold) {
+        msgIndex = (msgIndex + 1) % messages.length;
         ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
         elapsed = 0;

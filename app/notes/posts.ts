@@ -50,37 +50,6 @@ export const posts: Post[] = [
     ],
   },
   {
-    slug: "personal-machine-intelligence-for-all",
-    title: "Personal Machine Intelligence for All",
-    date: "May 20, 2026",
-    iso: "2026-05-20",
-    author: "Machine Intelligence Research",
-    excerpt:
-      "Most models are trained in a few places and then frozen. We think intelligence should be shaped by the people it serves.",
-    sections: [
-      {
-        heading: "Introduction",
-        body: [
-          "Most of the intelligence in use today is trained in a handful of places and then frozen. It is not shaped by the people it serves, and it learns little from the work they do together.",
-          "Personal machine intelligence is the opposite premise: a model you shape, that adapts to how you think and what you value.",
-        ],
-      },
-      {
-        heading: "A model you shape",
-        body: [
-          "The unit of personalization is not a prompt — it is an environment. Your data, your standards, your corrections, expressed as something the model can actually learn from over time.",
-          "This asks more of the tools than a settings panel. It asks for a way to teach, cheaply and continuously, and to see the model change in response.",
-        ],
-      },
-      {
-        heading: "The path ahead",
-        body: [
-          "Extending human will and judgment calls for intelligence as diverse and distributed as people themselves are. That is the path we have chosen, and the reason we build in the open.",
-        ],
-      },
-    ],
-  },
-  {
     slug: "notes-on-reinforcement-environments",
     title: "Notes on Reinforcement Environments",
     date: "Mar 8, 2026",

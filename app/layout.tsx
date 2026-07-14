@@ -3,13 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.miresearchlab.com"),
-  title: "Machine Intelligence Research Lab",
-  description: "personal machine intelligence for all",
+  title: "machine intelligence research",
+  description: "crafting expert owned RL environments",
   openGraph: {
-    title: "Machine Intelligence Research Lab",
-    description: "personal machine intelligence for all",
+    title: "machine intelligence research",
+    description: "crafting expert owned RL environments",
     url: "https://www.miresearchlab.com",
-    siteName: "Machine Intelligence Research Lab",
+    siteName: "machine intelligence research",
     type: "website",
   },
 };
