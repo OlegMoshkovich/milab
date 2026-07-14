@@ -8,7 +8,7 @@ export default function Home() {
         messages={[
           "machine intelligence research",
           "crafting expert owned RL environments",
-          "personal machine intelligence for all",
+          "personal machine intelligence",
         ]}
       />
       <Link href="/blog" className="home-link">
