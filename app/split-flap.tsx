@@ -59,31 +59,28 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
   const [display, setDisplay] = useState(messages[0] ?? "");
-  // Off by default; turning it on is itself the unlocking user gesture.
-  const [soundOn, setSoundOn] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
-  const soundOnRef = useRef(false); // read inside rAF without re-running effect
 
-  // Create/resume the audio context. Must be called from a user gesture.
-  const unlockAudio = () => {
-    if (!ctxRef.current) {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext;
-      ctxRef.current = new AudioCtx();
-    }
-    primeContext(ctxRef.current);
-  };
-
-  const toggleSound = () => {
-    setSoundOn((prev) => {
-      const next = !prev;
-      soundOnRef.current = next;
-      if (next) unlockAudio();
-      return next;
-    });
-  };
+  // Sound is always on, but browsers block audio until a user gesture:
+  // create/unlock the context on the first interaction anywhere.
+  useEffect(() => {
+    const events = ["pointerdown", "keydown", "touchstart"] as const;
+    const unlock = () => {
+      if (!ctxRef.current) {
+        const AudioCtx =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext })
+            .webkitAudioContext;
+        ctxRef.current = new AudioCtx();
+      }
+      primeContext(ctxRef.current);
+      events.forEach((e) => document.removeEventListener(e, unlock));
+    };
+    events.forEach((e) =>
+      document.addEventListener(e, unlock, { passive: true }),
+    );
+    return () => events.forEach((e) => document.removeEventListener(e, unlock));
+  }, []);
 
   useEffect(() => {
     // Each letter locks a little later than the one before it, so a message
@@ -144,7 +141,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       }
 
       const ctx = ctxRef.current;
-      if (soundOnRef.current && ctx) {
+      if (ctx) {
         if (scrambling) {
           if (now - lastClick >= CLICK_GAP) {
             lastClick = now;
@@ -164,19 +161,8 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   }, [messages]);
 
   return (
-    <>
-      <p className="title" aria-label={messages.join(", ")}>
-        {display}
-      </p>
-      <button
-        type="button"
-        className="sound-toggle"
-        onClick={toggleSound}
-        aria-pressed={soundOn}
-        aria-label={soundOn ? "Turn sound off" : "Turn sound on"}
-      >
-        {soundOn ? "◉ sound on" : "◯ sound off"}
-      </button>
-    </>
+    <p className="title" aria-label={messages.join(", ")}>
+      {display}
+    </p>
   );
 }
