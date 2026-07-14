@@ -1,0 +1,162 @@
+.shell {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 96px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 72px;
+}
+
+.wordmark {
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  color: #bdbdbd;
+}
+
+.wordmark:hover {
+  color: #ffffff;
+}
+
+.nav {
+  display: flex;
+  gap: 22px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #777777;
+}
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 44px;
+}
+
+.photo {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 22px;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+}
+
+.role {
+  font-size: 13px;
+  color: #777777;
+  margin: 0 0 12px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+/* ---- Sections ---- */
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  margin: 0 0 18px;
+}
+
+.bio {
+  font-size: 14px;
+  line-height: 1.85;
+  color: #c9c9c9;
+  max-width: 640px;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pub {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 20px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.list .pub:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pubTitle {
+  font-size: 14px;
+  color: #ededed;
+  line-height: 1.4;
+}
+
+.pubMeta {
+  font-size: 12px;
+  color: #777777;
+  margin-top: 5px;
+}
+
+.cited {
+  font-size: 12px;
+  color: #777777;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 13px;
+}
+
+.links a {
+  color: #8a8a8a;
+}
+
+.links a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .pub {
+    grid-template-columns: 1fr;
+  }
+
+  .cited {
+    text-align: left;
+  }
+}
