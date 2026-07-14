@@ -173,9 +173,13 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
       // One run: scramble + settle, hold on the text, then advance to the
-      // next message, cycling through them continuously.
+      // next message. After the last message settles, stop there for good.
       if (elapsed >= finishAt + HOLD_MS) {
-        msgIndex = (msgIndex + 1) % messages.length;
+        if (msgIndex >= messages.length - 1) {
+          setDisplay(messages[msgIndex]);
+          return; // no more frames — hold on the final message
+        }
+        msgIndex += 1;
         ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
         elapsed = 0;
