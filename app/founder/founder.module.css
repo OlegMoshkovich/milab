@@ -109,9 +109,17 @@
 }
 
 .pubTitle {
+  display: inline-block;
   font-size: 14px;
   color: #ededed;
   line-height: 1.4;
+  transition: color 0.14s ease;
+}
+
+.pubTitle:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .pubMeta {

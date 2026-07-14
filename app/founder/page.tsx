@@ -87,12 +87,31 @@ export default function FounderPage() {
       </header>
 
       <section className={styles.section}>
+        <p className={styles.bio}>
+          Yasin is a machine learning researcher working on sequential
+          decision-making: bandits, reinforcement learning, and online learning.
+          His work on linear stochastic bandits and confidence-set methods is
+          widely cited, and his recent research looks at estimating uncertainty
+          in large language models.
+        </p>
+      </section>
+
+      <section className={styles.section}>
         <h2 className={styles.sectionTitle}>selected work</h2>
         <div className={styles.list}>
           {PUBLICATIONS.map((p) => (
             <div key={p.title} className={styles.pub}>
               <div>
-                <div className={styles.pubTitle}>{p.title}</div>
+                <a
+                  className={styles.pubTitle}
+                  href={`https://scholar.google.com/scholar?q=${encodeURIComponent(
+                    p.title,
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {p.title}
+                </a>
                 <div className={styles.pubMeta}>{p.meta}</div>
               </div>
               <div className={styles.cited}>{p.cited} cited</div>
