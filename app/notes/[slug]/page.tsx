@@ -20,7 +20,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return { title: "Not found" };
   return {
-    title: `${post.title} — Machine Intelligence Research`,
+    title: `${post.title} · Machine Intelligence Research`,
     description: post.excerpt,
   };
 }

@@ -4,7 +4,7 @@ import styles from "./notes.module.css";
 import { sortedPosts } from "./posts";
 
 export const metadata: Metadata = {
-  title: "Notes — Machine Intelligence Research",
+  title: "Notes · Machine Intelligence Research",
   description: "Notes from the machine intelligence research lab.",
 };
 

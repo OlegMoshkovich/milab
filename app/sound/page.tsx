@@ -24,7 +24,7 @@ const PRESETS: Preset[] = [
   {
     id: "classic",
     name: "Solari classic",
-    desc: "Balanced tick with a soft mechanical body — the current site sound.",
+    desc: "Balanced tick with a soft mechanical body. The current site sound.",
     dur: 0.035, nLo: 1200, nHi: 1900, q: 1.0,
     osc: "triangle", oLo: 300, oHi: 460, nVol: 0.22, oVol: 0.2, gap: 55,
   },
@@ -45,7 +45,7 @@ const PRESETS: Preset[] = [
   {
     id: "typewriter",
     name: "Typewriter",
-    desc: "Sharp, bright, snappy — mechanical keys more than flaps.",
+    desc: "Sharp, bright, snappy. Mechanical keys more than flaps.",
     dur: 0.02, nLo: 2500, nHi: 3600, q: 1.6,
     osc: "triangle", oLo: 520, oHi: 700, nVol: 0.26, oVol: 0.12, gap: 45,
   },
@@ -232,7 +232,7 @@ export default function SoundPage() {
         <h1 className={styles.title}>Choose a flap sound</h1>
         <p className={styles.lede}>
           Tap a style to hear the board flip with it. Each one is generated
-          live — the same engine that runs on the site. When one feels right,
+          live, using the same engine that runs on the site. When one feels right,
           tell me its name and I&rsquo;ll wire it in.
         </p>
 
@@ -263,7 +263,7 @@ export default function SoundPage() {
               className={styles.preset}
               role="radio"
               aria-checked={selected === p.id}
-              aria-label={`${p.name} — ${p.desc}`}
+              aria-label={`${p.name}: ${p.desc}`}
               onClick={() => select(p)}
             >
               <span className={styles.dot} aria-hidden="true" />
@@ -287,7 +287,7 @@ export default function SoundPage() {
               and I&rsquo;ll set it on the site.
             </>
           ) : (
-            "No sound picked yet — tap one above to preview it."
+            "No sound picked yet. Tap one above to preview it."
           )}
         </div>
 

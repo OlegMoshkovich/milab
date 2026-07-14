@@ -15,7 +15,7 @@ const CLICK_GAP = 72; // min gap between clatter clicks while scrambling
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
-// "Soft ticks" — a short, quiet, high noise burst through a band-pass filter,
+// "Soft ticks": a short, quiet, high noise burst through a band-pass filter,
 // no low body. Randomized pitch makes a run sound like many gentle flaps.
 function playClick(ctx: AudioContext, volume: number) {
   const now = ctx.currentTime;
@@ -118,7 +118,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
           cyclesDone += 1;
           if (cyclesDone >= 2) {
             setDisplay(messages[msgIndex]);
-            return; // no more frames — rest on the last message
+            return; // no more frames; rest on the last message
           }
         }
         msgIndex = (msgIndex + 1) % messages.length;
