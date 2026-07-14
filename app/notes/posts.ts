@@ -18,33 +18,33 @@ export const posts: Post[] = [
     iso: "2026-07-02",
     author: "Machine Intelligence Research",
     excerpt:
-      "Reinforcement learning is only as good as the world it learns in. We think experts should own that world.",
+      "A model learns from the world you put it in. We think the people who actually do the work should be the ones building that world.",
     sections: [
       {
         heading: "Introduction",
         body: [
-          "Reinforcement learning is only as good as the environment it learns in. The reward function, the observations, the edge cases — these are the real curriculum, and today they are mostly written by people far removed from the work being modeled.",
-          "We build environments that the domain experts themselves own and shape: the clinician, the trader, the engineer. The people who understand the task define what good looks like.",
+          "A model learns from the world you put it in. That world — what it sees, what counts as success, which mistakes hurt — matters more than almost anything else. And right now, those worlds are mostly built by people who have never done the job the model is supposed to learn.",
+          "We think that's backwards. The nurse, the trader, the engineer — the people who actually do the work — should be the ones deciding what good looks like. So that's what we build: training environments owned by the people who know the job.",
         ],
       },
       {
         heading: "Why ownership matters",
         body: [
-          "When an environment is owned by its experts, the reward stops being a proxy and starts being a contract. Mistakes surface early, because the person who would catch them in the real world is the same person tuning the signal.",
-          "Ownership also travels. An environment that captures one team's judgment becomes an asset they can version, audit, and carry with them — not a black box they rent.",
+          "When you've spent years doing something, you notice things nobody else would. The shortcut that looks fine but isn't. The rare case that matters more than a hundred routine ones. If you're the one shaping what the model gets rewarded for, those things get caught early — because you're the person who would have caught them anyway.",
+          "There's a longer game here too. An environment that captures how your team thinks becomes something you keep. You can look inside it, change your mind, take it with you. It's yours — not a black box someone rents to you.",
         ],
       },
       {
         heading: "Building the environment",
         body: [
-          "We start from traces of real work and let experts annotate what mattered and why. Those annotations become the shaping signal. The loop is deliberately short: change the reward, watch the policy, correct.",
-          "The tooling stays out of the way. If defining an environment feels like writing a spec, we have failed; it should feel like showing someone how you work.",
+          "We start with real work — actual traces of the job being done — and ask the expert to point at what mattered and why. Those notes become the signal the model learns from. Then we keep the loop tight: adjust, watch what the model does, adjust again.",
+          "If any of this feels like writing a spec, we've failed. It should feel like showing a new colleague how you work.",
         ],
       },
       {
         heading: "What's next",
         body: [
-          "We are opening this process to more domains and more teams. If you own a task worth getting right, we want the model to learn it from you.",
+          "We're opening this up to more kinds of work and more teams. If you do something worth getting right, we'd love for a model to learn it from you.",
         ],
       },
     ],
@@ -56,25 +56,25 @@ export const posts: Post[] = [
     iso: "2026-03-08",
     author: "Machine Intelligence Research",
     excerpt:
-      "A few working notes on reward design, signal, and the questions we keep returning to.",
+      "Some things we keep scribbling in the margins — about rewards, signals, and the questions that won't leave us alone.",
     sections: [
       {
         heading: "Introduction",
         body: [
-          "These are working notes, not conclusions. We keep them public because the questions are more useful than our current answers.",
+          "These are notes, not answers. We're sharing them anyway, because the questions have been more useful to us than anything we've concluded so far.",
         ],
       },
       {
         heading: "Signal and reward",
         body: [
-          "A reward is a compression of everything you care about into a single number. Every compression loses something; the craft is choosing what to lose.",
-          "Dense signal trains faster but overfits to the metric. Sparse signal is honest but slow. Most good environments interpolate, and the interpolation is itself a design decision worth taking seriously.",
+          "A reward squeezes everything you care about into one number. Something always gets lost in the squeeze. The craft — and it really is a craft — is choosing what you can afford to lose.",
+          "Give a model feedback constantly and it learns fast, but it starts chasing the score instead of the point. Give it feedback rarely and it stays honest, but learning crawls. Most good setups live somewhere in between, and where exactly you land is a real decision, worth arguing about.",
         ],
       },
       {
         heading: "Open questions",
         body: [
-          "How do we let experts express preferences that they cannot fully articulate? How do we keep an environment honest as the policy learns to exploit it? We do not have clean answers, and we are wary of anyone who claims to.",
+          "How do you let someone teach a model things they know but can't quite put into words? How do you keep an environment honest once the model gets clever enough to game it? We don't have tidy answers. Honestly, we're a little suspicious of anyone who says they do.",
         ],
       },
     ],
