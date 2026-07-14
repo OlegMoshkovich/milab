@@ -16,7 +16,6 @@
 .wordmark {
   font-size: 12px;
   letter-spacing: 0.22em;
-  text-transform: uppercase;
   color: #bdbdbd;
 }
 
@@ -43,16 +42,10 @@
 
 .h1 {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 400;
   color: #ffffff;
   letter-spacing: 0.02em;
   margin: 0 0 8px;
-}
-
-.sub {
-  font-size: 13px;
-  color: #777777;
-  margin: 0;
 }
 
 .list {
@@ -131,7 +124,7 @@
 
 .articleTitle {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 400;
   color: #ffffff;
   letter-spacing: 0.01em;
   margin: 0 0 10px;
@@ -151,7 +144,7 @@
 
 .h2 {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 400;
   color: #ffffff;
   letter-spacing: 0.03em;
   margin: 0 0 14px;

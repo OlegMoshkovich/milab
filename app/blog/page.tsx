@@ -22,7 +22,6 @@ export default function BlogIndex() {
 
       <header className={styles.lead}>
         <h1 className={styles.h1}>blog</h1>
-        <p className={styles.sub}>Notes from the lab</p>
       </header>
 
       <div className={styles.list}>
