@@ -44,39 +44,57 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
   const [display, setDisplay] = useState(messages[0] ?? "");
-  const [soundOn, setSoundOn] = useState(false);
+  // On by default; browsers still won't emit sound until the first user
+  // gesture, so we auto-unlock on that gesture (see the effect below).
+  const [soundOn, setSoundOn] = useState(true);
   const ctxRef = useRef<AudioContext | null>(null);
-  const soundOnRef = useRef(false); // read inside rAF without re-running effect
+  const soundOnRef = useRef(true); // read inside rAF without re-running effect
+
+  // Create/resume the audio context. Must be called from a user gesture.
+  const unlockAudio = () => {
+    if (!ctxRef.current) {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext;
+      ctxRef.current = new AudioCtx();
+    }
+    const ctx = ctxRef.current;
+    // iOS routes Web Audio through the ringer (silent) switch by default;
+    // asking for the "playback" session lets it sound even when muted.
+    const audioSession = (
+      navigator as unknown as { audioSession?: { type: string } }
+    ).audioSession;
+    if (audioSession) audioSession.type = "playback";
+    void ctx.resume();
+    const unlock = ctx.createBufferSource();
+    unlock.buffer = ctx.createBuffer(1, 1, 22050);
+    unlock.connect(ctx.destination);
+    unlock.start(0);
+  };
 
   const toggleSound = () => {
     setSoundOn((prev) => {
       const next = !prev;
       soundOnRef.current = next;
-      if (next) {
-        if (!ctxRef.current) {
-          const AudioCtx =
-            window.AudioContext ||
-            (window as unknown as { webkitAudioContext: typeof AudioContext })
-              .webkitAudioContext;
-          ctxRef.current = new AudioCtx();
-        }
-        const ctx = ctxRef.current;
-        // iOS routes Web Audio through the ringer (silent) switch by default;
-        // asking for the "playback" session lets it sound even when muted.
-        const audioSession = (
-          navigator as unknown as { audioSession?: { type: string } }
-        ).audioSession;
-        if (audioSession) audioSession.type = "playback";
-        // Unlock — resume plus a silent tick, both inside the tap gesture.
-        void ctx.resume();
-        const unlock = ctx.createBufferSource();
-        unlock.buffer = ctx.createBuffer(1, 1, 22050);
-        unlock.connect(ctx.destination);
-        unlock.start(0);
-      }
+      if (next) unlockAudio();
       return next;
     });
   };
+
+  // Sound is on by default: unlock playback on the first user interaction
+  // anywhere on the page (unless it was switched off before then).
+  useEffect(() => {
+    const events = ["pointerdown", "keydown", "touchstart"] as const;
+    const kick = () => {
+      if (soundOnRef.current) unlockAudio();
+      events.forEach((e) => document.removeEventListener(e, kick));
+    };
+    events.forEach((e) =>
+      document.addEventListener(e, kick, { once: true, passive: true }),
+    );
+    return () => events.forEach((e) => document.removeEventListener(e, kick));
+  }, []);
 
   useEffect(() => {
     // Each letter locks a little later than the one before it, so a message
