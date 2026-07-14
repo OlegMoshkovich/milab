@@ -15,6 +15,20 @@ const STING_VOLUME = 0.85;
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
+// Claim the "playback" audio session (so iOS ignores the silent switch),
+// resume, and play a silent tick to fully unlock. Module scope keeps the
+// mutation out of the component render path.
+function primeContext(ctx: AudioContext) {
+  const session = (navigator as unknown as { audioSession?: { type: string } })
+    .audioSession;
+  if (session) session.type = "playback";
+  void ctx.resume();
+  const unlock = ctx.createBufferSource();
+  unlock.buffer = ctx.createBuffer(1, 1, 22050);
+  unlock.connect(ctx.destination);
+  unlock.start(0);
+}
+
 export default function SplitFlap({ messages }: { messages: string[] }) {
   // Seed deterministically so the server-rendered HTML matches the first
   // client render, then start cycling on mount inside the effect.
@@ -27,9 +41,13 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   const stingRef = useRef<AudioBuffer | null>(null); // decoded WAV
   const stingLoading = useRef(false);
   const playingRef = useRef<AudioBufferSourceNode | null>(null);
+  const unlockedRef = useRef(false); // has a gesture unlocked audio yet
+  const firstPlayedRef = useRef(false); // has the sting played once since unlock
+  const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
 
   // Create/resume the audio context and load the sting. From a user gesture.
   const unlockAudio = () => {
+    unlockedRef.current = true;
     if (!ctxRef.current) {
       const AudioCtx =
         window.AudioContext ||
@@ -38,19 +56,15 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       ctxRef.current = new AudioCtx();
     }
     const ctx = ctxRef.current;
-    // iOS routes Web Audio through the ringer (silent) switch by default;
-    // asking for the "playback" session lets it sound even when muted.
-    const audioSession = (
-      navigator as unknown as { audioSession?: { type: string } }
-    ).audioSession;
-    if (audioSession) audioSession.type = "playback";
-    void ctx.resume();
-    const unlock = ctx.createBufferSource();
-    unlock.buffer = ctx.createBuffer(1, 1, 22050);
-    unlock.connect(ctx.destination);
-    unlock.start(0);
+    primeContext(ctx);
 
-    // Fetch + decode the sting once.
+    // Play the sting once as immediate feedback for this first unlock.
+    const firstPlay = () => {
+      if (firstPlayedRef.current) return;
+      if (playSting()) firstPlayedRef.current = true;
+    };
+
+    // Fetch + decode the sting once, then give feedback.
     if (!stingRef.current && !stingLoading.current) {
       stingLoading.current = true;
       fetch(STING_SRC)
@@ -58,10 +72,13 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         .then((buf) => ctx.decodeAudioData(buf))
         .then((decoded) => {
           stingRef.current = decoded;
+          firstPlay();
         })
         .catch(() => {
           stingLoading.current = false; // allow a retry on next unlock
         });
+    } else {
+      firstPlay();
     }
   };
 
@@ -96,6 +113,14 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   };
 
   const toggleSound = () => {
+    // Sound is on by default but blocked until a gesture, so the first click
+    // on the toggle should START it (unlock + keep on), not mute it.
+    if (!unlockedRef.current) {
+      soundOnRef.current = true;
+      setSoundOn(true);
+      unlockAudio();
+      return;
+    }
     setSoundOn((prev) => {
       const next = !prev;
       soundOnRef.current = next;
@@ -106,17 +131,23 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   };
 
   // Sound is on by default: unlock playback on the first user interaction
-  // anywhere on the page (unless it was switched off before then).
+  // anywhere on the page. The toggle button handles its own first click
+  // (see toggleSound), so ignore events originating from it here.
   useEffect(() => {
     const events = ["pointerdown", "keydown", "touchstart"] as const;
-    const kick = () => {
-      if (soundOnRef.current) unlockAudio();
-      events.forEach((e) => document.removeEventListener(e, kick));
+    const kick = (e: Event) => {
+      const target = e.target as Node | null;
+      if (toggleBtnRef.current && target && toggleBtnRef.current.contains(target)) {
+        return; // let the toggle's onClick unlock it
+      }
+      if (!unlockedRef.current && soundOnRef.current) unlockAudio();
+      events.forEach((ev) => document.removeEventListener(ev, kick));
     };
-    events.forEach((e) =>
-      document.addEventListener(e, kick, { once: true, passive: true }),
+    events.forEach((ev) =>
+      document.addEventListener(ev, kick, { passive: true }),
     );
-    return () => events.forEach((e) => document.removeEventListener(e, kick));
+    return () => events.forEach((ev) => document.removeEventListener(ev, kick));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -142,13 +173,9 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
       if (cycleStart === null) cycleStart = now;
       let elapsed = now - cycleStart;
       // One run: scramble + settle, hold on the text, then advance to the
-      // next message. After the last message settles, stop there for good.
+      // next message, cycling through them continuously.
       if (elapsed >= finishAt + HOLD_MS) {
-        if (msgIndex >= messages.length - 1) {
-          setDisplay(messages[msgIndex]);
-          return; // no more frames — hold on the final message
-        }
-        msgIndex += 1;
+        msgIndex = (msgIndex + 1) % messages.length;
         ({ chars, settleAt, finishAt } = timings(messages[msgIndex]));
         cycleStart = now;
         elapsed = 0;
@@ -191,6 +218,7 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
         {display}
       </p>
       <button
+        ref={toggleBtnRef}
         type="button"
         className="sound-toggle"
         onClick={toggleSound}
