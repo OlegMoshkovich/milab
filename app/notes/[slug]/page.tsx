@@ -38,7 +38,9 @@ export default async function ArticlePage({
     <main className={styles.shell}>
       <div className={styles.topbar}>
         <Link href="/" className={styles.wordmark}>
-          machine intelligence
+          machine
+          <br />
+          intelligence
         </Link>
         <nav className={styles.nav}>
           <Link href="/notes">notes</Link>
