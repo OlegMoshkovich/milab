@@ -9,12 +9,6 @@ export const metadata: Metadata = {
     "Founder of the machine intelligence research lab. Research in AI, machine learning, and reinforcement learning.",
 };
 
-const INTERESTS = [
-  "Artificial Intelligence",
-  "Machine Learning",
-  "Reinforcement Learning",
-];
-
 const PUBLICATIONS = [
   {
     title: "Improved algorithms for linear stochastic bandits",
@@ -37,7 +31,7 @@ const PUBLICATIONS = [
 const SCHOLAR_URL =
   "https://scholar.google.com/citations?user=-D0EgMIAAAAJ&hl=en";
 
-const BIO = `Foundational work in online reinforcement learning, uncertainty quantification, and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," has about 2,635 citations and informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. In 2022, research on hierarchical and recursive architectures at an AI start-up led to a Nature-invited paper and related generation work. He founded the machine intelligence research lab to advance human-in-the-loop online RL: agents that explore efficiently and learn directly from human teachers. H-index 33.`;
+const BIO = `Foundational work in online reinforcement learning, uncertainty quantification, and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," has about 2,635 citations and informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. In 2022, research on hierarchical and recursive architectures at an AI start-up led to a Nature-invited paper and related generation work. He founded the machine intelligence research lab to advance human-in-the-loop online RL.`;
 
 export default function FounderPage() {
   return (
@@ -64,11 +58,6 @@ export default function FounderPage() {
         <div>
           <h1 className={styles.name}>Yasin Abbasi-Yadkori</h1>
           <p className={styles.role}>senior researcher</p>
-          <div className={styles.tags}>
-            {INTERESTS.map((t) => (
-              <span key={t}>{t}</span>
-            ))}
-          </div>
         </div>
       </header>
 
