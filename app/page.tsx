@@ -8,9 +8,9 @@ export default function Home() {
       <nav className="home-nav">
         <Link href="/notes">notes</Link>
       </nav>
-      <Link href="/founder" className="team-link">
-        team
-      </Link>
+      <nav className="home-team">
+        <Link href="/founder">team</Link>
+      </nav>
     </main>
   );
 }
