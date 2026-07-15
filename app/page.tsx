@@ -6,9 +6,11 @@ export default function Home() {
     <main className="home">
       <SplitFlap messages={["machine intelligence research"]} />
       <nav className="home-nav">
-        <Link href="/founder">team</Link>
         <Link href="/notes">notes</Link>
       </nav>
+      <Link href="/founder" className="team-link">
+        team
+      </Link>
     </main>
   );
 }

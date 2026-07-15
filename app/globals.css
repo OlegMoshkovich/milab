@@ -45,6 +45,17 @@ body {
   color: #ffffff;
 }
 
+.team-link {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  padding: 4px 6px;
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
 a {
   color: inherit;
   text-decoration: none;
