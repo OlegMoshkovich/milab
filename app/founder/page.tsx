@@ -66,7 +66,17 @@ export default function FounderPage() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>selected work</h2>
+        <div className={styles.sectionHead}>
+          <h2 className={styles.sectionTitle}>selected work</h2>
+          <a
+            className={styles.scholarLink}
+            href={SCHOLAR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Scholar
+          </a>
+        </div>
         <div className={styles.list}>
           {PUBLICATIONS.map((p) => (
             <div key={p.title} className={styles.pub}>
@@ -86,14 +96,6 @@ export default function FounderPage() {
               <div className={styles.cited}>{p.cited} cited</div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.links}>
-          <a href={SCHOLAR_URL} target="_blank" rel="noopener noreferrer">
-            Google Scholar
-          </a>
         </div>
       </section>
     </main>

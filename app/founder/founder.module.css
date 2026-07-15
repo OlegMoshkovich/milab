@@ -78,11 +78,30 @@
   margin-bottom: 40px;
 }
 
+.sectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0 0 18px;
+}
+
 .sectionTitle {
   font-size: 14px;
   color: #ffffff;
   letter-spacing: 0.02em;
-  margin: 0 0 18px;
+  margin: 0;
+}
+
+.scholarLink {
+  font-size: 13px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.scholarLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .bio {
@@ -136,23 +155,6 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   text-align: right;
-}
-
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: 13px;
-}
-
-.links a {
-  color: #ffffff;
-}
-
-.links a:hover {
-  color: #ffffff;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 @media (max-width: 620px) {
