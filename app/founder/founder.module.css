@@ -61,7 +61,7 @@
 
 .role {
   font-size: 13px;
-  color: #777777;
+  color: #ffffff;
   margin: 0 0 12px;
 }
 
@@ -70,7 +70,7 @@
   flex-wrap: wrap;
   gap: 6px 14px;
   font-size: 12px;
-  color: #8a8a8a;
+  color: #ffffff;
 }
 
 /* ---- Sections ---- */
@@ -88,7 +88,7 @@
 .bio {
   font-size: 14px;
   line-height: 1.85;
-  color: #c9c9c9;
+  color: #ffffff;
   max-width: 640px;
   margin: 0;
 }
@@ -126,13 +126,13 @@
 
 .pubMeta {
   font-size: 12px;
-  color: #777777;
+  color: #ffffff;
   margin-top: 5px;
 }
 
 .cited {
   font-size: 12px;
-  color: #777777;
+  color: #ffffff;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   text-align: right;
