@@ -5,12 +5,10 @@ export default function Home() {
   return (
     <main className="home">
       <SplitFlap messages={["machine intelligence research"]} />
-      <Link href="/notes" className="home-link">
-        notes
-      </Link>
-      <Link href="/founder" className="founder-link">
-        founder
-      </Link>
+      <nav className="home-nav">
+        <Link href="/founder">team</Link>
+        <Link href="/notes">notes</Link>
+      </nav>
     </main>
   );
 }
