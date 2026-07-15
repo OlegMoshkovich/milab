@@ -42,7 +42,7 @@ body {
   padding: 0 24px;
   display: flex;
   align-items: center;
-  min-height: 3.1em; /* two lines of the wordmark, so links align vertically */
+  min-height: 1.55em; /* one line of the wordmark, so links align vertically */
   font-family: "Courier New", Courier, monospace;
   font-size: 14px;
   letter-spacing: 0.04em;

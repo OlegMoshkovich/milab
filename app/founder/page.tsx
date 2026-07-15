@@ -38,9 +38,7 @@ export default function FounderPage() {
     <main className={styles.shell}>
       <div className={styles.topbar}>
         <Link href="/" className={styles.wordmark}>
-          machine
-          <br />
-          intelligence
+          mi research lab
         </Link>
         <nav className={styles.nav}>
           <Link href="/notes">notes</Link>
