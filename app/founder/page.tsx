@@ -27,26 +27,10 @@ const PUBLICATIONS = [
     cited: "537",
   },
   {
-    title: "Fast approximate nearest-neighbor search with k-nearest neighbor graph",
-    meta: "K Hajebi, Y Abbasi-Yadkori, H Shahbazi, H Zhang · IJCAI, 2011",
-    cited: "337",
-  },
-  {
     title:
       "To Believe or Not to Believe Your LLM: Iterative Prompting for Estimating Epistemic Uncertainty",
     meta: "Y Abbasi-Yadkori, I Kuzborskij, A György, C Szepesvári · NeurIPS, 2024",
     cited: "227",
-  },
-  {
-    title:
-      "Online-to-Confidence-Set Conversions and Application to Sparse Stochastic Bandits",
-    meta: "Y Abbasi-Yadkori, D Pál, C Szepesvári · AISTATS, 2012",
-    cited: "225",
-  },
-  {
-    title: "Sharp Convergence Rates for Langevin Dynamics in the Nonconvex Setting",
-    meta: "X Cheng, NS Chatterji, Y Abbasi-Yadkori, PL Bartlett, MI Jordan · 2018",
-    cited: "218",
   },
 ];
 
