@@ -66,13 +66,13 @@ export default function Diagram() {
                 height={b.h}
                 rx="5"
                 fill="none"
-                stroke={b.emphasize ? "#ffffff" : "#5a5a5a"}
-                strokeWidth={b.emphasize ? 1.5 : 1.3}
+                stroke="#5a5a5a"
+                strokeWidth="1.3"
               />
               <text x={cx} y={b.y + 30} textAnchor="middle" fontSize="11" fill="#8a8a8a" letterSpacing="2">
                 {b.cat}
               </text>
-              <text x={cx} y={b.y + 60} textAnchor="middle" fontSize="17" fontWeight="700" fill="#ffffff">
+              <text x={cx} y={b.y + 60} textAnchor="middle" fontSize="17" fill="#ffffff">
                 {b.title}
               </text>
               {b.sub ? (
