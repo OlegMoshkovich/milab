@@ -51,6 +51,9 @@ export default function Diagram() {
         <line x1="300" y1="322" x2="432" y2="427" stroke="#8f8f8f" strokeWidth="1.3" strokeDasharray="6 5" markerEnd="url(#ah)" />
         <line x1="700" y1="322" x2="568" y2="427" stroke="#8f8f8f" strokeWidth="1.3" strokeDasharray="6 5" markerEnd="url(#ah)" />
 
+        {/* value function -> uncertainty */}
+        <line x1="640" y1="480" x2="688" y2="480" stroke="#8f8f8f" strokeWidth="1.5" markerEnd="url(#ah)" />
+
         {/* boxes */}
         {BOXES.map((b) => {
           const cx = b.x + b.w / 2;
