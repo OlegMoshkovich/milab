@@ -51,9 +51,6 @@ export default function Diagram() {
         <line x1="300" y1="322" x2="432" y2="427" stroke="#8f8f8f" strokeWidth="1.3" strokeDasharray="6 5" markerEnd="url(#ah)" />
         <line x1="700" y1="322" x2="568" y2="427" stroke="#8f8f8f" strokeWidth="1.3" strokeDasharray="6 5" markerEnd="url(#ah)" />
 
-        {/* value function -> uncertainty (features) */}
-        <line x1="640" y1="480" x2="688" y2="480" stroke="#8f8f8f" strokeWidth="1.5" markerEnd="url(#ah)" />
-
         {/* boxes */}
         {BOXES.map((b) => {
           const cx = b.x + b.w / 2;
@@ -90,7 +87,6 @@ export default function Diagram() {
         <text x="516" y="300" textAnchor="start" fontSize="13" fill="#9a9a9a">e</text>
         <text x="500" y="258" textAnchor="middle" fontSize="13" fill="#9a9a9a">episodes</text>
         <text x="152" y="379" textAnchor="end" fontSize="13" fill="#9a9a9a">decisions</text>
-        <text x="664" y="470" textAnchor="middle" fontSize="13" fill="#9a9a9a">features</text>
       </svg>
     </div>
   );
