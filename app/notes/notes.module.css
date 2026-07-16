@@ -17,18 +17,18 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  background: #000000;
+  background: var(--bg);
   z-index: 2;
 }
 
 .wordmark {
   font-size: 14px;
   letter-spacing: 0.22em;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .wordmark:hover {
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .nav {
@@ -36,11 +36,11 @@
   gap: 22px;
   font-size: 14px;
   letter-spacing: 0.04em;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .nav a:hover {
-  color: #ffffff;
+  color: var(--fg);
 }
 
 /* ---- Index ---- */
@@ -51,7 +51,7 @@
 .h1 {
   font-size: 22px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--fg);
   letter-spacing: 0.02em;
   margin: 0 0 8px;
 }
@@ -66,29 +66,29 @@
   grid-template-columns: 132px 1fr;
   gap: 20px;
   padding: 26px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--hairline);
   align-items: baseline;
 }
 
 .list .row:last-child {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--hairline);
 }
 
 .date {
   font-size: 12px;
-  color: #b3b3b3;
+  color: var(--muted);
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
 }
 
 .rowTitle {
   font-size: 15px;
-  color: #ffffff;
+  color: var(--fg);
   transition: color 0.14s ease;
 }
 
 .row:hover .rowTitle {
-  color: #ffffff;
+  color: var(--fg);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -101,7 +101,7 @@
 .articleTitle {
   font-size: 24px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--fg);
   letter-spacing: 0.01em;
   margin: 0 0 10px;
   text-wrap: balance;
@@ -109,7 +109,7 @@
 
 .meta {
   font-size: 12px;
-  color: #b3b3b3;
+  color: var(--muted);
   margin: 0 0 44px;
 }
 
@@ -121,7 +121,7 @@
 .h2 {
   font-size: 15px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--fg);
   letter-spacing: 0.03em;
   margin: 0 0 14px;
 }
@@ -129,23 +129,23 @@
 .p {
   font-size: 14px;
   line-height: 1.85;
-  color: #ffffff;
+  color: var(--fg);
   margin: 0 0 16px;
 }
 
 .backRow {
   margin-top: 72px;
   padding-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--hairline);
 }
 
 .back {
   font-size: 12px;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .back:hover {
-  color: #ffffff;
+  color: var(--fg);
 }
 
 @media (max-width: 680px) {

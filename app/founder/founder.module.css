@@ -17,18 +17,18 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  background: #000000;
+  background: var(--bg);
   z-index: 2;
 }
 
 .wordmark {
   font-size: 14px;
   letter-spacing: 0.22em;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .wordmark:hover {
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .nav {
@@ -36,11 +36,11 @@
   gap: 22px;
   font-size: 14px;
   letter-spacing: 0.04em;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 .nav a:hover {
-  color: #ffffff;
+  color: var(--fg);
 }
 
 /* ---- Header ---- */
@@ -54,21 +54,21 @@
 .photo {
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--photo-border);
   flex-shrink: 0;
 }
 
 .name {
   font-size: 22px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--fg);
   letter-spacing: 0.01em;
   margin: 0 0 6px;
 }
 
 .role {
   font-size: 13px;
-  color: #ffffff;
+  color: var(--fg);
   margin: 0 0 12px;
 }
 
@@ -77,7 +77,7 @@
   flex-wrap: wrap;
   gap: 6px 14px;
   font-size: 12px;
-  color: #ffffff;
+  color: var(--fg);
 }
 
 /* ---- Sections ---- */
@@ -95,14 +95,14 @@
 
 .sectionTitle {
   font-size: 14px;
-  color: #ffffff;
+  color: var(--fg);
   letter-spacing: 0.02em;
   margin: 0;
 }
 
 .scholarLink {
   font-size: 13px;
-  color: #ffffff;
+  color: var(--fg);
   white-space: nowrap;
 }
 
@@ -114,7 +114,7 @@
 .bio {
   font-size: 14px;
   line-height: 1.85;
-  color: #ffffff;
+  color: var(--fg);
   max-width: 640px;
   margin: 0;
 }
@@ -129,36 +129,36 @@
   grid-template-columns: 1fr auto;
   gap: 8px 20px;
   padding: 20px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--hairline);
 }
 
 .list .pub:last-child {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--hairline);
 }
 
 .pubTitle {
   display: inline-block;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--fg);
   line-height: 1.4;
   transition: color 0.14s ease;
 }
 
 .pubTitle:hover {
-  color: #ffffff;
+  color: var(--fg);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .pubMeta {
   font-size: 12px;
-  color: #b3b3b3;
+  color: var(--muted);
   margin-top: 5px;
 }
 
 .cited {
   font-size: 12px;
-  color: #ffffff;
+  color: var(--fg);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   text-align: right;

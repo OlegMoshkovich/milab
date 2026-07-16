@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ThemeToggle from "./theme-toggle";
+
+// Runs before paint so the stored theme is applied without a flash.
+const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.miresearchlab.com"),
@@ -20,8 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
+        {children}
+        <ThemeToggle />
+      </body>
     </html>
   );
 }
