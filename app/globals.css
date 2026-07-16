@@ -67,7 +67,11 @@ body {
 
 .home-nav {
   top: 40px;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.home-wordmark {
+  letter-spacing: 0.22em;
 }
 
 .home-team {

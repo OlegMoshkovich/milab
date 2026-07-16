@@ -11,6 +11,9 @@ export default function Home() {
         <p className="home-desc">{DESC}</p>
       </div>
       <nav className="home-nav">
+        <Link href="/" className="home-wordmark">
+          mi research lab
+        </Link>
         <Link href="/notes">notes</Link>
       </nav>
       <nav className="home-team">
