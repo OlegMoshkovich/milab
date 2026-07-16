@@ -95,6 +95,7 @@
 
 .sectionTitle {
   font-size: 14px;
+  font-weight: 400;
   color: var(--fg);
   letter-spacing: 0.02em;
   margin: 0;
