@@ -7,17 +7,14 @@ const DESC = `We craft expert-owned RL environments: high-fidelity artifacts bui
 export default function Home() {
   return (
     <main className="home">
-      <div className="home-content">
+      <nav className="home-nav">
         <SplitFlap messages={["machine intelligence research"]} />
+        <Link href="/notes">notes</Link>
+      </nav>
+      <div className="home-content">
         <p className="home-desc">{DESC}</p>
       </div>
       <Diagram />
-      <nav className="home-nav">
-        <Link href="/" className="home-wordmark">
-          mi research lab
-        </Link>
-        <Link href="/notes">notes</Link>
-      </nav>
       <nav className="home-team">
         <Link href="/founder">team</Link>
       </nav>
