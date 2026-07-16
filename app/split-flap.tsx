@@ -15,6 +15,12 @@ const CLICK_GAP = 72; // min gap between clatter clicks while scrambling
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
+// The flaps should clatter only when the visitor first lands directly on the
+// home page, and stay still on client-side navigation back to it. This flag
+// resets on a hard load; the entry path is stamped on window by the pre-paint
+// script in the layout.
+let flapPlayed = false;
+
 // "Soft ticks": a short, quiet, high noise burst through a band-pass filter,
 // no low body. Randomized pitch makes a run sound like many gentle flaps.
 function playClick(ctx: AudioContext, volume: number) {
@@ -83,6 +89,18 @@ export default function SplitFlap({ messages }: { messages: string[] }) {
   }, []);
 
   useEffect(() => {
+    const entryPath =
+      typeof window !== "undefined"
+        ? (window as unknown as { __miEntry?: string }).__miEntry
+        : undefined;
+    // runId 0 is the automatic run on mount; only play it when the visitor
+    // landed on home directly and it has not played yet this load. Otherwise
+    // leave the seeded final text in place. A click (runId > 0) always replays.
+    if (runId === 0 && (flapPlayed || entryPath !== "/")) {
+      return;
+    }
+    flapPlayed = true;
+
     // Each letter locks a little later than the one before it, so a message
     // settles left-to-right like an airport departure board.
     const timings = (msg: string) => {
