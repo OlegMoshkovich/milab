@@ -30,13 +30,15 @@ export default function ThemeToggle() {
   };
 
   return (
-    <button
-      type="button"
-      className="theme-toggle"
-      onClick={toggle}
-      aria-label="Toggle light or dark theme"
-    >
-      {theme === "light" ? "dark" : "light"}
-    </button>
+    <div className="theme-toggle-bar">
+      <button
+        type="button"
+        className="theme-toggle"
+        onClick={toggle}
+        aria-label="Toggle light or dark theme"
+      >
+        {theme === "light" ? "dark" : "light"}
+      </button>
+    </div>
   );
 }
