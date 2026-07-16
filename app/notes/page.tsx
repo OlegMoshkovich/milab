@@ -16,6 +16,7 @@ export default function NotesIndex() {
           mi research lab
         </Link>
         <nav className={styles.nav}>
+          <Link href="/founder">team</Link>
           <Link href="/">home</Link>
         </nav>
       </div>
