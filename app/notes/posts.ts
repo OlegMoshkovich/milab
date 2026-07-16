@@ -49,36 +49,6 @@ export const posts: Post[] = [
       },
     ],
   },
-  {
-    slug: "notes-on-reinforcement-environments",
-    title: "Notes on Reinforcement Environments",
-    date: "Mar 8, 2026",
-    iso: "2026-03-08",
-    author: "Machine Intelligence Research",
-    excerpt:
-      "Some things we keep scribbling in the margins: rewards, signals, and the questions that won't leave us alone.",
-    sections: [
-      {
-        heading: "Introduction",
-        body: [
-          "These are notes, not answers. We're sharing them anyway, because the questions have been more useful to us than anything we've concluded so far.",
-        ],
-      },
-      {
-        heading: "Signal and reward",
-        body: [
-          "A reward squeezes everything you care about into one number. Something always gets lost in the squeeze. The craft, and it really is a craft, is choosing what you can afford to lose.",
-          "Give a model feedback constantly and it learns fast, but it starts chasing the score instead of the point. Give it feedback rarely and it stays honest, but learning crawls. Most good setups live somewhere in between, and where exactly you land is a real decision, worth arguing about.",
-        ],
-      },
-      {
-        heading: "Open questions",
-        body: [
-          "How do you let someone teach a model things they know but can't quite put into words? How do you keep an environment honest once the model gets clever enough to game it? We don't have tidy answers. Honestly, we're a little suspicious of anyone who says they do.",
-        ],
-      },
-    ],
-  },
 ];
 
 export function getPost(slug: string): Post | undefined {
