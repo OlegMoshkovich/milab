@@ -2,7 +2,7 @@
   max-width: 760px;
   margin: 0 auto;
   padding: 92px 24px 96px;
-  font-family: "Courier New", Courier, monospace;
+  font-family: var(--font);
 }
 
 .topbar {

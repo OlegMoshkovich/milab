@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeToggle from "./theme-toggle";
+
+// The one place the site font is chosen. It is exposed as the --font-inter CSS
+// variable; globals.css maps --font to it, and everything reads var(--font).
+const appFont = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 // Runs before paint so the stored theme (defaulting to light) is applied
 // without a flash, and sets a matching favicon: a dark circle in light mode,
@@ -26,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={appFont.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

@@ -22,7 +22,7 @@ export default function Diagram() {
     <div className="diagram">
       <svg
         viewBox="0 0 1000 560"
-        style={{ fontFamily: '"Courier New", Courier, monospace' }}
+        style={{ fontFamily: "var(--font)" }}
         role="img"
         aria-label="System architecture: a human expert grounds a policy agent and an environment simulator that exchange episodes, supported by a critic agent, a value function, and an uncertainty estimate."
       >
