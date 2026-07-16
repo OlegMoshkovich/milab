@@ -22,8 +22,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: clamp(120px, 26vh, 260px) 24px 96px;
+  justify-content: center;
+  padding: 84px 24px;
 }
 
 .home-content {
@@ -32,10 +32,10 @@ body {
 }
 
 .home-desc {
-  margin-top: 72px;
+  margin-top: 26px;
   font-family: "Courier New", Courier, monospace;
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.65;
   letter-spacing: 0.01em;
   color: #ffffff;
   text-align: left;
@@ -43,15 +43,13 @@ body {
 
 .diagram {
   width: 100%;
-  max-width: 1000px;
-  margin: 80px auto 0;
-  overflow-x: auto;
+  max-width: 620px;
+  margin: 30px auto 0;
 }
 
 .diagram svg {
   display: block;
   width: 100%;
-  min-width: 720px;
   height: auto;
 }
 
