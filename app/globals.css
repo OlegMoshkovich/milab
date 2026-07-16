@@ -133,6 +133,29 @@ a {
   text-decoration: none;
 }
 
+/* Fixed background bands at the top and bottom edges of the 760px column.
+   They sit above the scrolling content but below the nav/footer text, so
+   content slides cleanly under the bars instead of peeking past them. */
+.edge-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  max-width: 760px;
+  margin: 0 auto;
+  height: 56px;
+  background: var(--bg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.edge-mask-top {
+  top: 0;
+}
+
+.edge-mask-bottom {
+  bottom: 0;
+}
+
 /* Light/dark toggle, aligned to the right edge of the 760px content column
    used by the nav, description and diagram. The bar spans the column but lets
    clicks through (pointer-events: none) so only the button itself is active. */

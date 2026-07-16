@@ -29,8 +29,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <div className="edge-mask edge-mask-top" aria-hidden="true" />
         {children}
         <ThemeToggle />
+        <div className="edge-mask edge-mask-bottom" aria-hidden="true" />
       </body>
     </html>
   );
