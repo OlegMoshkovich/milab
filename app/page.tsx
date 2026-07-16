@@ -2,7 +2,7 @@ import Link from "next/link";
 import Diagram from "./diagram";
 import SplitFlap from "./split-flap";
 
-const DESC = `We craft expert-owned RL environments: high-fidelity artifacts built and owned by the domain experts whose judgment they encode. We believe in the world where machine intelligence is distributed, improved, monetized and supervised by domain experts, and where agents improve on demand by interacting with domain specific environments.`;
+const DESC = `We craft expert-owned RL environments: high-fidelity artifacts built and owned by the domain experts. We believe in the world where machine intelligence is distributed, improved, monetized and supervised by domain experts, and where agents improve on demand by interacting with domain specific environments.`;
 
 export default function Home() {
   return (
