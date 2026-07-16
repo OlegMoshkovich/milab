@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="home">
       <nav className="home-nav">
-        <SplitFlap messages={["machine intelligence research"]} />
+        <SplitFlap landing="machine intelligence research" idle="mi research lab" />
         <Link href="/notes">notes</Link>
       </nav>
       <div className="home-content">
