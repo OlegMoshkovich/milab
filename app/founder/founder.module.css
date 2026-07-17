@@ -121,6 +121,12 @@
   margin: 0;
 }
 
+.bioLink {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .list {
   display: flex;
   flex-direction: column;

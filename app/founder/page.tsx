@@ -31,7 +31,11 @@ const PUBLICATIONS = [
 const SCHOLAR_URL =
   "https://scholar.google.com/citations?user=-D0EgMIAAAAJ&hl=en";
 
-const BIO = `Yasin has contributed to the advancement of machine intelligence through the foundational work in online reinforcement learning, uncertainty quantification, and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. His work on hierarchical and recursive architectures led to a Nature-invited paper and related generation work. He founded the machine intelligence research lab to advance collaboration between human and AI through the use of online RL.`;
+const RECENT_WORK_URL = "https://arxiv.org/abs/2506.21734";
+
+const BIO_BEFORE = `Yasin has contributed to the advancement of machine intelligence through the foundational work in online reinforcement learning, uncertainty quantification and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. His work on hierarchical and recursive architectures led to a `;
+
+const BIO_AFTER = ` and related generation work. He founded the machine intelligence research lab to advance collaboration between human and AI through the use of online RL.`;
 
 export default function FounderPage() {
   return (
@@ -62,7 +66,18 @@ export default function FounderPage() {
       </header>
 
       <section className={styles.section}>
-        <p className={styles.bio}>{BIO}</p>
+        <p className={styles.bio}>
+          {BIO_BEFORE}
+          <a
+            className={styles.bioLink}
+            href={RECENT_WORK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Nature-invited paper
+          </a>
+          {BIO_AFTER}
+        </p>
       </section>
 
       <section className={styles.section}>
