@@ -123,6 +123,10 @@
 
 .bioLink {
   color: var(--fg);
+  text-decoration: none;
+}
+
+.bioLink:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
