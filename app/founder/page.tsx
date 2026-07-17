@@ -35,7 +35,7 @@ const RECENT_WORK_URL = "https://arxiv.org/abs/2506.21734";
 
 const BIO_BEFORE = `Yasin has contributed to the advancement of machine intelligence through the foundational work in online reinforcement learning, uncertainty quantification and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. His recent work on hierarchical and recursive architectures led to a `;
 
-const BIO_AFTER = ` and related generation advancements. He founded the machine intelligence research lab to advance collaboration between human and AI through the use of online RL.`;
+const BIO_AFTER = ` and related generation advancements. He founded the machine intelligence research lab to advance collaboration between human and AI through the application of online RL.`;
 
 export default function FounderPage() {
   return (
