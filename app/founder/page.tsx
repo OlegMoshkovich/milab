@@ -31,7 +31,7 @@ const PUBLICATIONS = [
 const SCHOLAR_URL =
   "https://scholar.google.com/citations?user=-D0EgMIAAAAJ&hl=en";
 
-const BIO = `Foundational work in online reinforcement learning, uncertainty quantification, and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," has about 2,635 citations and informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. In 2022, research on hierarchical and recursive architectures at an AI start-up led to a Nature-invited paper and related generation work. He founded the machine intelligence research lab to advance human-in-the-loop online RL.`;
+const BIO = `Yasin has contributed to the advancement of machine intelligence through the foundational work in online reinforcement learning, uncertainty quantification, and exploration in Richard Sutton's lab from 2006. His NeurIPS 2011 paper, "Improved Algorithms for Linear Stochastic Bandits," informs much of modern RL exploration. At Google DeepMind he applied UQ research to hallucination detection in large language models. His work on hierarchical and recursive architectures led to a Nature-invited paper and related generation work. He founded the machine intelligence research lab to advance collaboration between human and AI through the use of online RL.`;
 
 export default function FounderPage() {
   return (
