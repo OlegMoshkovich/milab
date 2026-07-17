@@ -61,7 +61,7 @@ export default function FounderPage() {
         />
         <div>
           <h1 className={styles.name}>Yasin Abbasi-Yadkori</h1>
-          <p className={styles.role}>senior researcher</p>
+          <p className={styles.role}>founder | senior researcher</p>
         </div>
       </header>
 
