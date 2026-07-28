@@ -51,9 +51,13 @@ export default async function ArticlePage({
           <h1 className={styles.articleTitle}>{post.title}</h1>
           <p className={styles.meta}>{post.date}</p>
 
-          {post.sections.map((s) => (
-            <section key={s.heading} id={anchor(s.heading)} className={styles.section}>
-              <h2 className={styles.h2}>{s.heading}</h2>
+          {post.sections.map((s, si) => (
+            <section
+              key={si}
+              id={s.heading ? anchor(s.heading) : undefined}
+              className={styles.section}
+            >
+              {s.heading ? <h2 className={styles.h2}>{s.heading}</h2> : null}
               {s.body.map((para, i) => (
                 <p key={i} className={styles.p}>
                   {para}

@@ -21,8 +21,10 @@ export const posts: Post[] = [
       "A model learns from the world you put it in. We think the people who actually do the work should be the ones building that world.",
     sections: [
       {
-        heading: "Introduction",
-        body: [],
+        heading: "",
+        body: [
+          "Ownership of intelligence is one of the most crucial topics to setup correctly.",
+        ],
       },
       {
         heading: "Why ownership matters",
