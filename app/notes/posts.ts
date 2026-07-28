@@ -26,10 +26,6 @@ export const posts: Post[] = [
           "Ownership of intelligence is one of the most crucial topics to setup correctly.",
         ],
       },
-      {
-        heading: "Why ownership matters",
-        body: [],
-      },
     ],
   },
 ];
