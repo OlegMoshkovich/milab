@@ -98,9 +98,8 @@ body {
 }
 
 /* Align the corner links to the same 760px content column and 40px inset
-   used by the topbar on the notes and founder pages. */
-.home-nav,
-.home-team {
+   used by the topbar on the notes pages. */
+.home-nav {
   position: fixed;
   left: 0;
   right: 0;
@@ -122,13 +121,7 @@ body {
   justify-content: space-between;
 }
 
-.home-team {
-  bottom: 0;
-  justify-content: flex-start;
-}
-
-.home-nav a,
-.home-team a {
+.home-nav a {
   color: var(--fg);
 }
 
