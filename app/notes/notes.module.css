@@ -45,18 +45,6 @@
 }
 
 /* ---- Index ---- */
-.lead {
-  margin-bottom: 48px;
-}
-
-.h1 {
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--fg);
-  letter-spacing: 0.02em;
-  margin: 0 0 8px;
-}
-
 .list {
   display: flex;
   flex-direction: column;

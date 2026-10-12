@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Diagram from "./diagram";
 import SplitFlap from "./split-flap";
 
@@ -9,7 +8,6 @@ export default function Home() {
     <main className="home">
       <nav className="home-nav">
         <SplitFlap landing="machine intelligence research" idle="mi research lab" />
-        <Link href="/notes">notes</Link>
       </nav>
       <div className="home-content">
         <p className="home-desc">{DESC}</p>

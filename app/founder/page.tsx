@@ -45,7 +45,6 @@ export default function FounderPage() {
           mi research lab
         </Link>
         <nav className={styles.nav}>
-          <Link href="/notes">notes</Link>
           <Link href="/">home</Link>
         </nav>
       </div>

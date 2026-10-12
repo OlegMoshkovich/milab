@@ -20,10 +20,6 @@ export default function NotesIndex() {
         </nav>
       </div>
 
-      <header className={styles.lead}>
-        <h1 className={styles.h1}>notes</h1>
-      </header>
-
       <div className={styles.list}>
         {sortedPosts.map((post) => (
           <Link key={post.slug} href={`/notes/${post.slug}`} className={styles.row}>

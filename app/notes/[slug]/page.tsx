@@ -41,7 +41,6 @@ export default async function ArticlePage({
           mi research lab
         </Link>
         <nav className={styles.nav}>
-          <Link href="/notes">notes</Link>
           <Link href="/">home</Link>
         </nav>
       </div>
